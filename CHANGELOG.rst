@@ -29,6 +29,8 @@ Added
 
 * Library-wide logger available for configuration/disabling at ``staticjinja.logger``
 
+* ``--log`` argument to CLI to set log level.
+
 Fixed
 ^^^^^
 

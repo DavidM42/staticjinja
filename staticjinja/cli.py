@@ -18,14 +18,25 @@ Options:
   --static=<a,b,c>      Directory(s) within <srcpath> containing static files
   -h --help             Show this screen.
   --version             Show version.
+  --log=<level>         Log level {debug,info,warn,error,critical} [default: info]
 """
+import logging
 import os
 import sys
 
 from docopt import docopt
 
-from .staticjinja import Site
-from staticjinja import __version__
+import staticjinja
+
+
+def setup_logging(log_string):
+    numeric_level = getattr(logging, log_string.upper(), None)
+    if not isinstance(numeric_level, int):
+        raise ValueError("Invalid log level: %s" % log_string)
+
+    root_logger = logging.getLogger()
+    root_logger.setLevel(numeric_level)
+    root_logger.addHandler(logging.StreamHandler())
 
 
 def render(args):
@@ -45,6 +56,7 @@ def render(args):
                 'watch': False
             }
     """
+    setup_logging(args["--log"])
 
     def resolve(path):
         if not os.path.isabs(path):
@@ -68,14 +80,16 @@ def render(args):
                 print("The static files directory '{}' is invalid.".format(path))
                 sys.exit(1)
 
-    site = Site.make_site(searchpath=srcpath, outpath=outpath, staticpaths=staticpaths)
+    site = staticjinja.Site.make_site(
+        searchpath=srcpath, outpath=outpath, staticpaths=staticpaths
+    )
     site.render(use_reloader=args["watch"])
 
 
 def main(argv=None):
     if argv is None:
         argv = sys.argv[1:]
-    render(docopt(__doc__, argv=argv, version=__version__))
+    render(docopt(__doc__, argv=argv, version=staticjinja.__version__))
 
 
 if __name__ == "__main__":

@@ -17,7 +17,7 @@ srcpath_cases = [
 @pytest.mark.parametrize("srcpath, expected", srcpath_cases)
 @mock.patch("os.path.isdir")
 @mock.patch("os.getcwd")
-@mock.patch("staticjinja.cli.Site.make_site")
+@mock.patch("staticjinja.cli.staticjinja.Site.make_site")
 def test_srcpath(mock_make_site, mock_getcwd, mock_isdir, srcpath, expected):
     """Test that various `--srcpath` args given to the CLI result in
     Site.make_site() being called with the correct searchpath parameter."""
@@ -46,7 +46,7 @@ outpath_cases = [
 @pytest.mark.parametrize("outpath, expected", outpath_cases)
 @mock.patch("os.path.isdir")
 @mock.patch("os.getcwd")
-@mock.patch("staticjinja.cli.Site.make_site")
+@mock.patch("staticjinja.cli.staticjinja.Site.make_site")
 def test_outpath(mock_make_site, mock_getcwd, mock_isdir, outpath, expected):
     """Test that various `--outpath` args given to the CLI result in
     Site.make_site() being called with the correct outpath parameter."""
@@ -72,7 +72,7 @@ def test_outpath(mock_make_site, mock_getcwd, mock_isdir, outpath, expected):
 )
 @mock.patch("os.path.isdir")
 @mock.patch("os.getcwd")
-@mock.patch("staticjinja.cli.Site.make_site")
+@mock.patch("staticjinja.cli.staticjinja.Site.make_site")
 def test_watch(mock_make_site, mock_getcwd, mock_isdir, command, expected):
     """Test that build/watch commands result in Site.render() being called
     with the correct use_reloader values."""
@@ -86,7 +86,7 @@ def test_watch(mock_make_site, mock_getcwd, mock_isdir, command, expected):
     mock_site.render.assert_called_once_with(use_reloader=expected)
 
 
-@mock.patch("staticjinja.cli.Site.make_site")
+@mock.patch("staticjinja.cli.staticjinja.Site.make_site")
 def test_nonexistent_srcpath(mock_make_site):
     """Test that a nonexistent `--srcpath` exits early."""
     # Technique from
