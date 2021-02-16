@@ -9,6 +9,8 @@ Unreleased_
 Removed
 ^^^^^^^
 
+* Removed ``Renderer``, it was deprecated 6 years ago.
+
 * Removed ``logger`` argument to Site(). Use ``staticjinja.logger`` for the
   staticjinja-wide logger instead.
 
