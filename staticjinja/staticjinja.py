@@ -16,6 +16,8 @@ from jinja2 import Environment, FileSystemLoader
 
 from .reloader import Reloader
 
+logger = logging.getLogger(__name__)
+
 
 def _has_argument(func):
     """Test whether a function expects an argument.
@@ -33,6 +35,9 @@ def _ensure_dir(path):
 
 class Site(object):
     """The Site object.
+
+    .. versionchanged:: 2.0.0
+        Removed *logger* argument. Use ``staticjinja.logger`` instead.
 
     :param environment:
         A :class:`jinja2.Environment`.
@@ -57,10 +62,6 @@ class Site(object):
     :param encoding:
         The encoding of templates to use.
 
-    :param logger:
-        A logging.Logger object used to log events. Defaults to
-        ``logging.getLogger(__name__)``
-
     :param staticpaths:
         .. deprecated:: 0.3.4
 
@@ -80,7 +81,6 @@ class Site(object):
         searchpath,
         outpath=".",
         encoding="utf8",
-        logger=None,
         contexts=None,
         rules=None,
         staticpaths=None,
@@ -90,11 +90,6 @@ class Site(object):
         self.searchpath = searchpath
         self.outpath = outpath
         self.encoding = encoding
-        if logger is None:
-            logger = logging.getLogger(__name__)
-            logger.setLevel(logging.INFO)
-            logger.addHandler(logging.StreamHandler())
-        self.logger = logger
         self.contexts = contexts or []
         self.rules = rules or []
         if staticpaths:
@@ -358,7 +353,7 @@ class Site(object):
             template.name)``.
 
         """
-        self.logger.info("Rendering %s..." % template.name)
+        logger.info("Rendering %s...", template.name)
 
         if context is None:
             context = self.get_context(template)
@@ -387,7 +382,7 @@ class Site(object):
             f = Path(f)
             input_location = Path(self.searchpath) / f
             output_location = Path(self.outpath) / f
-            self.logger.info("Copying %s to %s.", f, output_location)
+            logger.info("Copying %s to %s.", f, output_location)
             _ensure_dir(output_location)
             shutil.copy2(input_location, output_location)
 
@@ -400,7 +395,7 @@ class Site(object):
         - Partial files have all the templates as dependents, since any template
           may rely upon a partial.
 
-        .. versionchanged:: 1.1.0
+        .. versionchanged:: 2.0.0
            Now always returns list of filenames. Before the return type
            was either a list of templates or list of filenames.
 
@@ -418,7 +413,7 @@ class Site(object):
 
     def get_dependencies(self, filename):
         """
-        .. deprecated:: 1.1.0
+        .. deprecated:: 2.0.0
            Use :meth:`Site.get_dependents` instead.
         """
         warnings.warn(

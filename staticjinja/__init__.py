@@ -19,5 +19,13 @@ https://github.com/staticjinja/staticjinja/
 __version_info__ = (1, 0, 4)
 __version__ = ".".join(map(str, __version_info__))
 
-from .reloader import Reloader  # noqa: F401 (unused import)
-from .staticjinja import make_site, Site  # noqa: F401 (unused import)
+import logging
+
+# Set up logging (before doing anything else in this library).
+# Users can configure/disable logging via staticjinja.logger
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+logger.addHandler(logging.StreamHandler())
+
+from .reloader import Reloader  # noqa: F401,E402 (unused import, not at top of file)
+from .staticjinja import make_site, Site  # noqa: F401,E402

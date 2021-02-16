@@ -282,3 +282,23 @@ render the file using ``render_md()``.
 There are other, more complicated things you could do in a custom render
 function as well, such as not write the output to disk at all, but instead
 pass it somewhere else.
+
+Logging and Debugging
+---------------------
+
+By default ``staticjinja`` logs all messages at level INFO and higher to stderr.
+If you need to debug ``staticjinja``, or turn off ``staticjinja``'s logging,
+you can do that fairly easily:
+
+.. code-block:: python
+
+    # To modify just staticjinja's logging
+    import staticjinja
+    logger = staticjinja.logger  
+
+    # To modify all logging in your project get the root logger
+    # import logging
+    # logger = logging.getLogger()
+
+    logger.setLevel(logging.DEBUG)
+    logger.addHandler(logging.StreamHandler())

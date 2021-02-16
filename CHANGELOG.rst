@@ -6,6 +6,12 @@ Unreleased_
 
 .. _Unreleased: https://github.com/staticjinja/staticjinja/compare/1.0.4...HEAD
 
+Removed
+^^^^^^^
+
+* Removed ``logger`` argument to Site(). Use ``staticjinja.logger`` for the
+  staticjinja-wide logger instead.
+
 Changed
 ^^^^^^^
 
@@ -17,6 +23,11 @@ Changed
   affect those using custom render functions.
 
 .. _#71: https://github.com/staticjinja/staticjinja/pull/71
+
+Added
+^^^^^
+
+* Library-wide logger available for configuration/disabling at ``staticjinja.logger``
 
 Fixed
 ^^^^^
