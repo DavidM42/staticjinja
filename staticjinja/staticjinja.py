@@ -117,6 +117,7 @@ class Site(object):
         env_globals={},
         env_kwargs=None,
         mergecontexts=False,
+        logger=None
     ):
         """Create a :class:`Site <Site>` object.
 
@@ -183,6 +184,10 @@ class Site(object):
             the contexts list will be merged (in order) to get the final
             context.  Otherwise, only the first matching regex is used.
             Defaults to ``False``.
+            
+        :param logger:
+            A logging.Logger object used to log events. Defaults to
+            ``logging.getLogger(__name__)``
         """
         # Coerce search to an absolute path if it is not already
         if not os.path.isabs(searchpath):
@@ -217,6 +222,7 @@ class Site(object):
             contexts=contexts,
             staticpaths=staticpaths,
             mergecontexts=mergecontexts,
+            logger=logger,
         )
 
     @property
